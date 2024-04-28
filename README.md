@@ -1,7 +1,7 @@
 # fortran-modbus
 
 A collection of Fortran 2018 interface bindings to
-[libmodbus](https://github.com/stephane/libmodbus).
+[libmodbus](https://libmodbus.org/), for Modbus RTU and Modbus TCP access.
 
 ## Build Instructions
 
