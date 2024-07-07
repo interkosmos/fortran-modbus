@@ -219,7 +219,7 @@ module modbus
         function modbus_get_float(src) bind(c, name='modbus_get_float')
             import :: c_float, c_uint16_t
             implicit none
-            integer(kind=c_uint16_t), intent(in) :: src
+            integer(kind=c_uint16_t), intent(in) :: src(*)
             real(kind=c_float)                   :: modbus_get_float
         end function modbus_get_float
 
@@ -227,7 +227,7 @@ module modbus
         function modbus_get_float_abcd(src) bind(c, name='modbus_get_float_abcd')
             import :: c_float, c_uint16_t
             implicit none
-            integer(kind=c_uint16_t), intent(in) :: src
+            integer(kind=c_uint16_t), intent(in) :: src(*)
             real(kind=c_float)                   :: modbus_get_float_abcd
         end function modbus_get_float_abcd
 
@@ -235,7 +235,7 @@ module modbus
         function modbus_get_float_badc(src) bind(c, name='modbus_get_float_badc')
             import :: c_float, c_uint16_t
             implicit none
-            integer(kind=c_uint16_t), intent(in) :: src
+            integer(kind=c_uint16_t), intent(in) :: src(*)
             real(kind=c_float)                   :: modbus_get_float_badc
         end function modbus_get_float_badc
 
@@ -243,7 +243,7 @@ module modbus
         function modbus_get_float_cdab(src) bind(c, name='modbus_get_float_cdab')
             import :: c_float, c_uint16_t
             implicit none
-            integer(kind=c_uint16_t), intent(in) :: src
+            integer(kind=c_uint16_t), intent(in) :: src(*)
             real(kind=c_float)                   :: modbus_get_float_cdab
         end function modbus_get_float_cdab
 
@@ -251,7 +251,7 @@ module modbus
         function modbus_get_float_dcba(src) bind(c, name='modbus_get_float_dcba')
             import :: c_float, c_uint16_t
             implicit none
-            integer(kind=c_uint16_t), intent(in) :: src
+            integer(kind=c_uint16_t), intent(in) :: src(*)
             real(kind=c_float)                   :: modbus_get_float_dcba
         end function modbus_get_float_dcba
 
