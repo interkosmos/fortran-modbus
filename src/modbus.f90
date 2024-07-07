@@ -8,10 +8,10 @@ module modbus
     implicit none (type, external)
     private
 
-    integer, parameter :: c_uint8_t      = c_int8_t
-    integer, parameter :: c_uint16_t     = c_int16_t
-    integer, parameter :: c_uint32_t     = c_int32_t
-    integer, parameter :: c_unsigned_int = c_int
+    integer, parameter, public :: c_uint8_t      = c_int8_t
+    integer, parameter, public :: c_uint16_t     = c_int16_t
+    integer, parameter, public :: c_uint32_t     = c_int32_t
+    integer, parameter, public :: c_unsigned_int = c_int
 
     integer(kind=c_int), parameter, public :: MODBUS_FC_READ_COILS               = int(z'01')
     integer(kind=c_int), parameter, public :: MODBUS_FC_READ_DISCRETE_INPUTS     = int(z'02')
