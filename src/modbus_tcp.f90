@@ -16,7 +16,9 @@ module modbus_tcp
     integer(kind=c_int), parameter, public :: MODBUS_TCP_MAX_ADU_LENGTH = 260
 
     public :: modbus_new_tcp
+    public :: modbus_new_tcp_
     public :: modbus_new_tcp_pi
+    public :: modbus_new_tcp_pi_
     public :: modbus_tcp_accept
     public :: modbus_tcp_listen
     public :: modbus_tcp_pi_accept
@@ -24,22 +26,22 @@ module modbus_tcp
 
     interface
         ! modbus_t *modbus_new_tcp(const char *ip_address, int port)
-        function modbus_new_tcp(ip_address, port) bind(c, name='modbus_new_tcp')
+        function modbus_new_tcp_(ip_address, port) bind(c, name='modbus_new_tcp')
             import :: c_char, c_int, c_ptr
             implicit none
             character(kind=c_char), intent(in)        :: ip_address
             integer(kind=c_int),    intent(in), value :: port
-            type(c_ptr)                               :: modbus_new_tcp
-        end function modbus_new_tcp
+            type(c_ptr)                               :: modbus_new_tcp_
+        end function modbus_new_tcp_
 
         ! modbus_t *modbus_new_tcp_pi(const char *node, const char *service)
-        function modbus_new_tcp_pi(node, service) bind(c, name='modbus_new_tcp_pi')
+        function modbus_new_tcp_pi_(node, service) bind(c, name='modbus_new_tcp_pi')
             import :: c_char, c_ptr
             implicit none
             character(kind=c_char), intent(in) :: node
             character(kind=c_char), intent(in) :: service
-            type(c_ptr)                        :: modbus_new_tcp_pi
-        end function modbus_new_tcp_pi
+            type(c_ptr)                        :: modbus_new_tcp_pi_
+        end function modbus_new_tcp_pi_
 
         ! int modbus_tcp_accept(modbus_t *ctx, int *s)
         function modbus_tcp_accept(ctx, s) bind(c, name='modbus_tcp_accept')
@@ -77,4 +79,22 @@ module modbus_tcp
             integer(kind=c_int)                    :: modbus_tcp_pi_listen
         end function modbus_tcp_pi_listen
     end interface
+contains
+    ! modbus_t *modbus_new_tcp(const char *ip_address, int port)
+    function modbus_new_tcp(ip_address, port) result(ptr)
+        character(len=*), intent(in) :: ip_address
+        integer,          intent(in) :: port
+        type(c_ptr)                  :: ptr
+
+        ptr = modbus_new_tcp_(trim(ip_address) // c_null_char, port)
+    end function modbus_new_tcp
+
+    ! modbus_t *modbus_new_tcp_pi(const char *node, const char *service)
+    function modbus_new_tcp_pi(node, service) result(ptr)
+        character(len=*), intent(in) :: node
+        character(len=*), intent(in) :: service
+        type(c_ptr)                  :: ptr
+
+        ptr = modbus_new_tcp_pi_(trim(node) // c_null_char, trim(service) // c_null_char)
+    end function modbus_new_tcp_pi
 end module modbus_tcp

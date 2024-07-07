@@ -20,6 +20,7 @@ module modbus_rtu
     integer(kind=c_int), parameter, public :: MODBUS_RTU_RTS_DOWN = 2
 
     public :: modbus_new_rtu
+    public :: modbus_new_rtu_
     public :: modbus_rtu_get_rts
     public :: modbus_rtu_get_rts_delay
     public :: modbus_rtu_get_serial_mode
@@ -30,7 +31,7 @@ module modbus_rtu
 
     interface
         ! modbus_t *modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop_bit)
-        function modbus_new_rtu(device, baud, parity, data_bit, stop_bit) bind(c, name='modbus_new_rtu')
+        function modbus_new_rtu_(device, baud, parity, data_bit, stop_bit) bind(c, name='modbus_new_rtu')
             import :: c_char, c_int, c_ptr
             implicit none
             character(kind=c_char), intent(in)        :: device
@@ -38,8 +39,8 @@ module modbus_rtu
             character(kind=c_char), intent(in), value :: parity
             integer(kind=c_int),    intent(in), value :: data_bit
             integer(kind=c_int),    intent(in), value :: stop_bit
-            type(c_ptr)                               :: modbus_new_rtu
-        end function modbus_new_rtu
+            type(c_ptr)                               :: modbus_new_rtu_
+        end function modbus_new_rtu_
 
         ! int modbus_rtu_get_rts(modbus_t *ctx)
         function modbus_rtu_get_rts(ctx) bind(c, name='modbus_rtu_get_rts')
@@ -101,4 +102,16 @@ module modbus_rtu
             integer(kind=c_int)                    :: modbus_rtu_set_serial_mode
         end function modbus_rtu_set_serial_mode
     end interface
+contains
+    ! modbus_t *modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop_bit)
+    function modbus_new_rtu(device, baud, parity, data_bit, stop_bit) result(ptr)
+        character(len=*), intent(in) :: device
+        integer,          intent(in) :: baud
+        character(len=*), intent(in) :: parity
+        integer,          intent(in) :: data_bit
+        integer,          intent(in) :: stop_bit
+        type(c_ptr)                  :: ptr
+
+        ptr = modbus_new_rtu_(trim(device) // c_null_char, baud, trim(parity) // c_null_char, data_bit, stop_bit)
+    end function modbus_new_rtu
 end module modbus_rtu
