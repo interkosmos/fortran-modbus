@@ -89,6 +89,7 @@ module modbus
     integer(kind=c_unsigned_int), bind(c, name='libmodbus_version_micro'), public :: LIBMODBUS_VERSION_MICRO
 
     public :: modbus_close
+    public :: modbus_close_
     public :: modbus_connect
     public :: modbus_disable_quirks
     public :: modbus_enable_quirks
@@ -147,11 +148,11 @@ module modbus
 
     interface
         ! void modbus_close(modbus_t *ctx)
-        subroutine modbus_close(ctx) bind(c, name='modbus_close')
+        subroutine modbus_close_(ctx) bind(c, name='modbus_close')
             import :: c_ptr
             implicit none
             type(c_ptr), intent(in), value :: ctx
-        end subroutine modbus_close
+        end subroutine modbus_close_
 
         ! int modbus_connect(modbus_t *ctx)
         function modbus_connect(ctx) bind(c, name='modbus_connect')
@@ -670,6 +671,14 @@ contains
 
         if (.not. allocated(f_str)) f_str = ''
     end subroutine c_f_str_ptr
+
+    ! void modbus_close(modbus_t *ctx)
+    subroutine modbus_close(ctx)
+        type(c_ptr), intent(inout) :: ctx
+
+        call modbus_close_(ctx)
+        ctx = c_null_ptr
+    end subroutine modbus_close
 
     ! void modbus_free(modbus_t *ctx)
     subroutine modbus_free(ctx)
