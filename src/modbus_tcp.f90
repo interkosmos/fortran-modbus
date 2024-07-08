@@ -81,20 +81,20 @@ module modbus_tcp
     end interface
 contains
     ! modbus_t *modbus_new_tcp(const char *ip_address, int port)
-    function modbus_new_tcp(ip_address, port) result(ptr)
+    function modbus_new_tcp(ip_address, port) result(ctx)
         character(len=*), intent(in) :: ip_address
         integer,          intent(in) :: port
-        type(c_ptr)                  :: ptr
+        type(c_ptr)                  :: ctx
 
-        ptr = modbus_new_tcp_(trim(ip_address) // c_null_char, port)
+        ctx = modbus_new_tcp_(trim(ip_address) // c_null_char, port)
     end function modbus_new_tcp
 
     ! modbus_t *modbus_new_tcp_pi(const char *node, const char *service)
-    function modbus_new_tcp_pi(node, service) result(ptr)
+    function modbus_new_tcp_pi(node, service) result(ctx)
         character(len=*), intent(in) :: node
         character(len=*), intent(in) :: service
-        type(c_ptr)                  :: ptr
+        type(c_ptr)                  :: ctx
 
-        ptr = modbus_new_tcp_pi_(trim(node) // c_null_char, trim(service) // c_null_char)
+        ctx = modbus_new_tcp_pi_(trim(node) // c_null_char, trim(service) // c_null_char)
     end function modbus_new_tcp_pi
 end module modbus_tcp
