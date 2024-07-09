@@ -7,7 +7,7 @@ MAKE    = make
 PREFIX  = /usr
 
 DEBUG   = -std=f2018 -g -O0 -Wall -fmax-errors=1
-RELEASE = -std=f2018 -O2 -march=native
+RELEASE = -std=f2018 -O2
 
 FFLAGS  = $(RELEASE)
 LDLAGS  = -I$(PREFIX)/include -L$(PREFIX)/lib

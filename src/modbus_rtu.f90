@@ -112,6 +112,9 @@ contains
         integer,          intent(in) :: stop_bit
         type(c_ptr)                  :: ctx
 
-        ctx = modbus_new_rtu_(trim(device) // c_null_char, baud, parity, data_bit, stop_bit)
+        character(kind=c_char) :: parity_
+
+        parity_ = parity ! Workaround for GNU Fortran.
+        ctx = modbus_new_rtu_(trim(device) // c_null_char, baud, parity_, data_bit, stop_bit)
     end function modbus_new_rtu
 end module modbus_rtu
