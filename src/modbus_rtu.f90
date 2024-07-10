@@ -115,6 +115,7 @@ contains
         character(kind=c_char) :: parity_
 
         parity_ = parity ! Workaround for GNU Fortran.
+        if (parity_ >= 'a' .and. parity_ <= 'z') parity_ = achar(iachar(parity_) - 32)
         ctx = modbus_new_rtu_(trim(device) // c_null_char, baud, parity_, data_bit, stop_bit)
     end function modbus_new_rtu
 end module modbus_rtu
