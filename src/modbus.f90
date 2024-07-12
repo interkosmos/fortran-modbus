@@ -633,7 +633,7 @@ module modbus
             type(c_ptr),              intent(in), value :: ctx
             integer(kind=c_int),      intent(in), value :: addr
             integer(kind=c_int),      intent(in), value :: nb
-            integer(kind=c_uint16_t), intent(inout)     :: data
+            integer(kind=c_uint16_t), intent(inout)     :: data(*)
             integer(kind=c_int)                         :: modbus_write_registers
         end function modbus_write_registers
     end interface
