@@ -10,7 +10,7 @@ DEBUG   = -std=f2018 -g -O0 -Wall -fmax-errors=1
 RELEASE = -std=f2018 -O2
 
 FFLAGS  = $(RELEASE)
-LDLAGS  = -I$(PREFIX)/include -L$(PREFIX)/lib
+LDFLAGS = -I$(PREFIX)/include -L$(PREFIX)/lib
 LDLIBS  = -lmodbus
 ARFLAGS = rcs
 INCDIR  = $(PREFIX)/include/libfortran-modbus
