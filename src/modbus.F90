@@ -8,10 +8,21 @@ module modbus
     implicit none (type, external)
     private
 
-    integer, parameter, public :: c_uint8_t      = c_int8_t
-    integer, parameter, public :: c_uint16_t     = c_int16_t
-    integer, parameter, public :: c_uint32_t     = c_int32_t
-    integer, parameter, public :: c_unsigned_int = c_int
+#if defined (__flang__)
+
+    public :: c_uint8_t
+    public :: c_uint16_t
+    public :: c_uint32_t
+    public :: c_unsigned
+
+#else
+
+    integer, parameter, public :: c_uint8_t  = c_int8_t
+    integer, parameter, public :: c_uint16_t = c_int16_t
+    integer, parameter, public :: c_uint32_t = c_int32_t
+    integer, parameter, public :: c_unsigned = c_int
+
+#endif
 
     integer(kind=c_int), parameter, public :: MODBUS_FC_READ_COILS               = int(z'01')
     integer(kind=c_int), parameter, public :: MODBUS_FC_READ_DISCRETE_INPUTS     = int(z'02')
@@ -84,9 +95,9 @@ module modbus
     integer(kind=c_int), parameter, public :: MODBUS_QUIRK_REPLY_TO_BROADCAST = shiftl(1, 2)
     integer(kind=c_int), parameter, public :: MODBUS_QUIRK_ALL                = int(z'FF')
 
-    integer(kind=c_unsigned_int), bind(c, name='libmodbus_version_major'), public :: LIBMODBUS_VERSION_MAJOR
-    integer(kind=c_unsigned_int), bind(c, name='libmodbus_version_minor'), public :: LIBMODBUS_VERSION_MINOR
-    integer(kind=c_unsigned_int), bind(c, name='libmodbus_version_micro'), public :: LIBMODBUS_VERSION_MICRO
+    integer(kind=c_unsigned), bind(c, name='libmodbus_version_major'), public :: LIBMODBUS_VERSION_MAJOR
+    integer(kind=c_unsigned), bind(c, name='libmodbus_version_minor'), public :: LIBMODBUS_VERSION_MINOR
+    integer(kind=c_unsigned), bind(c, name='libmodbus_version_micro'), public :: LIBMODBUS_VERSION_MICRO
 
     public :: modbus_close
     public :: modbus_close_
@@ -164,20 +175,20 @@ module modbus
 
         ! int modbus_disable_quirks(modbus_t *ctx, unsigned int quirks_mask)
         function modbus_disable_quirks(ctx, quirks_mask) bind(c, name='modbus_disable_quirks')
-            import :: c_int, c_ptr, c_unsigned_int
+            import :: c_int, c_ptr, c_unsigned
             implicit none
-            type(c_ptr),                  intent(in), value :: ctx
-            integer(kind=c_unsigned_int), intent(in), value :: quirks_mask
-            integer(kind=c_int)                             :: modbus_disable_quirks
+            type(c_ptr),              intent(in), value :: ctx
+            integer(kind=c_unsigned), intent(in), value :: quirks_mask
+            integer(kind=c_int)                         :: modbus_disable_quirks
         end function modbus_disable_quirks
 
         ! int modbus_enable_quirks(modbus_t *ctx, unsigned int quirks_mask)
         function modbus_enable_quirks(ctx, quirks_mask) bind(c, name='modbus_enable_quirks')
-            import :: c_int, c_ptr, c_unsigned_int
+            import :: c_int, c_ptr, c_unsigned
             implicit none
-            type(c_ptr),                  intent(in), value :: ctx
-            integer(kind=c_unsigned_int), intent(in), value :: quirks_mask
-            integer(kind=c_int)                             :: modbus_enable_quirks
+            type(c_ptr),              intent(in), value :: ctx
+            integer(kind=c_unsigned), intent(in), value :: quirks_mask
+            integer(kind=c_int)                         :: modbus_enable_quirks
         end function modbus_enable_quirks
 
         ! int modbus_flush(modbus_t *ctx)
@@ -197,12 +208,12 @@ module modbus
 
         ! uint8_t modbus_get_byte_from_bits(const uint8_t *src, int idx, unsigned int nb_bits)
         function modbus_get_byte_from_bits(src, idx, nb_bits) bind(c, name='modbus_get_byte_from_bits')
-            import :: c_int, c_uint8_t, c_unsigned_int
+            import :: c_int, c_uint8_t, c_unsigned
             implicit none
-            integer(kind=c_uint8_t),      intent(inout)     :: src(*)
-            integer(kind=c_int),          intent(in), value :: idx
-            integer(kind=c_unsigned_int), intent(in), value :: nb_bits
-            integer(kind=c_uint8_t)                         :: modbus_get_byte_from_bits
+            integer(kind=c_uint8_t),  intent(inout)     :: src(*)
+            integer(kind=c_int),      intent(in), value :: idx
+            integer(kind=c_unsigned), intent(in), value :: nb_bits
+            integer(kind=c_uint8_t)                     :: modbus_get_byte_from_bits
         end function modbus_get_byte_from_bits
 
         ! int modbus_get_byte_timeout(modbus_t *ctx, uint32_t *to_sec, uint32_t *to_usec)
@@ -320,17 +331,17 @@ module modbus
         ! modbus_mapping_t *modbus_mapping_new_start_address(unsigned int start_bits, unsigned int nb_bits, unsigned int start_input_bits, unsigned int nb_input_bits, unsigned int start_registers, unsigned int nb_registers, unsigned int start_input_registers, unsigned int nb_input_registers)
         function modbus_mapping_new_start_address(start_bits, nb_bits, start_input_bits, nb_input_bits, start_registers, &
                 nb_registers, start_input_registers, nb_input_registers) bind(c, name='modbus_mapping_new_start_address')
-            import :: c_ptr, c_unsigned_int
+            import :: c_ptr, c_unsigned
             implicit none
-            integer(kind=c_unsigned_int), intent(in), value :: start_bits
-            integer(kind=c_unsigned_int), intent(in), value :: nb_bits
-            integer(kind=c_unsigned_int), intent(in), value :: start_input_bits
-            integer(kind=c_unsigned_int), intent(in), value :: nb_input_bits
-            integer(kind=c_unsigned_int), intent(in), value :: start_registers
-            integer(kind=c_unsigned_int), intent(in), value :: nb_registers
-            integer(kind=c_unsigned_int), intent(in), value :: start_input_registers
-            integer(kind=c_unsigned_int), intent(in), value :: nb_input_registers
-            type(c_ptr)                                     :: modbus_mapping_new_start_address
+            integer(kind=c_unsigned), intent(in), value :: start_bits
+            integer(kind=c_unsigned), intent(in), value :: nb_bits
+            integer(kind=c_unsigned), intent(in), value :: start_input_bits
+            integer(kind=c_unsigned), intent(in), value :: nb_input_bits
+            integer(kind=c_unsigned), intent(in), value :: start_registers
+            integer(kind=c_unsigned), intent(in), value :: nb_registers
+            integer(kind=c_unsigned), intent(in), value :: start_input_registers
+            integer(kind=c_unsigned), intent(in), value :: nb_input_registers
+            type(c_ptr)                                 :: modbus_mapping_new_start_address
         end function modbus_mapping_new_start_address
 
         ! int modbus_mask_write_register(modbus_t *ctx, int addr, uint16_t and_mask, uint16_t or_mask)
@@ -419,12 +430,12 @@ module modbus
 
         ! int modbus_reply_exception(modbus_t *ctx, const uint8_t *req, unsigned int exception_code)
         function modbus_reply_exception(ctx, req, exception_code) bind(c, name='modbus_reply_exception')
-            import :: c_int, c_ptr, c_uint8_t, c_unsigned_int
+            import :: c_int, c_ptr, c_uint8_t, c_unsigned
             implicit none
-            type(c_ptr),                  intent(in), value :: ctx
-            integer(kind=c_uint8_t),      intent(inout)     :: req(*)
-            integer(kind=c_unsigned_int), intent(in), value :: exception_code
-            integer(kind=c_int)                             :: modbus_reply_exception
+            type(c_ptr),              intent(in), value :: ctx
+            integer(kind=c_uint8_t),  intent(inout)     :: req(*)
+            integer(kind=c_unsigned), intent(in), value :: exception_code
+            integer(kind=c_int)                         :: modbus_reply_exception
         end function modbus_reply_exception
 
         ! int modbus_report_slave_id(modbus_t *ctx, int max_dest, uint8_t *dest)
@@ -458,12 +469,12 @@ module modbus
 
         ! void modbus_set_bits_from_bytes(uint8_t *dest, int idx, unsigned int nb_bits, const uint8_t *tab_byte)
         subroutine modbus_set_bits_from_bytes(dest, idx, nb_bits, tab_byte) bind(c, name='modbus_set_bits_from_bytes')
-            import :: c_int, c_uint8_t, c_unsigned_int
+            import :: c_int, c_uint8_t, c_unsigned
             implicit none
-            integer(kind=c_uint8_t),      intent(inout)     :: dest(*)
-            integer(kind=c_int),          intent(in), value :: idx
-            integer(kind=c_unsigned_int), intent(in), value :: nb_bits
-            integer(kind=c_uint8_t),      intent(in)        :: tab_byte
+            integer(kind=c_uint8_t),  intent(inout)     :: dest(*)
+            integer(kind=c_int),      intent(in), value :: idx
+            integer(kind=c_unsigned), intent(in), value :: nb_bits
+            integer(kind=c_uint8_t),  intent(in)        :: tab_byte
         end subroutine modbus_set_bits_from_bytes
 
         ! int modbus_set_byte_timeout(modbus_t *ctx, uint32_t to_sec, uint32_t to_usec)

@@ -4,7 +4,7 @@
 FC      = gfortran
 AR      = ar
 MAKE    = make
-PREFIX  = /usr
+PREFIX  = /usr/local
 
 DEBUG   = -std=f2018 -g -O0 -Wall -fmax-errors=1
 RELEASE = -std=f2018 -O2
@@ -15,7 +15,7 @@ LDLIBS  = -lmodbus
 ARFLAGS = rcs
 INCDIR  = $(PREFIX)/include/libfortran-modbus
 LIBDIR  = $(PREFIX)/lib
-SRC     = src/modbus.f90 src/modbus_rtu.f90 src/modbus_tcp.f90
+SRC     = src/modbus.F90 src/modbus_rtu.f90 src/modbus_tcp.f90
 OBJ     = modbus.o modbus_rtu.o modbus_tcp.o
 MOD     = modbus.mod modbus_rtu.mod modbus_tcp.mod
 TARGET  = ./libfortran-modbus.a
@@ -29,7 +29,7 @@ debug:
 	$(MAKE) test FFLAGS="$(DEBUG)"
 
 $(TARGET): $(SRC)
-	$(FC) $(FFLAGS) -c src/modbus.f90
+	$(FC) $(FFLAGS) -c src/modbus.F90
 	$(FC) $(FFLAGS) -c src/modbus_rtu.f90
 	$(FC) $(FFLAGS) -c src/modbus_tcp.f90
 	$(AR) $(ARFLAGS) $(TARGET) $(OBJ)

@@ -4,7 +4,7 @@ license = "ISC"
 author = "Philipp Engel"
 maintainer = "@interkosmos"
 copyright = "Copyright (c) 2024, Philipp Engel"
-description = "Fortran 2018 interface bindings to libmodbus"
+description = "Fortran 2018 ISO C binding interfaces to libmodbus"
 keywords = [ "modbus", "libmodbus", "iot" ]
 
 [build]
